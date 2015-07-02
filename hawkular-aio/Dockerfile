@@ -2,12 +2,11 @@ FROM jboss/base-jdk:8
 
 MAINTAINER Thomas Heute <theute@redhat.com>
 
-ENV HAWKULAR_VERSION 1.0.0.Alpha1
-ENV WILDFLY_VERSION 8.2.0.Final
+ENV HAWKULAR_VERSION 1.0.0.Alpha2
 
 
 # Download Hawkular from download.jboss.org
-RUN cd $HOME && curl -# http://download.jboss.org/hawkular/hawkular/$HAWKULAR_VERSION/hawkular-dist-$HAWKULAR_VERSION.tar.gz | tar zx && mv $HOME/wildfly-$WILDFLY_VERSION $HOME/hawkular
+RUN cd $HOME && curl -# http://download.jboss.org/hawkular/hawkular/$HAWKULAR_VERSION/hawkular-dist-$HAWKULAR_VERSION.tar.gz | tar zx && mv $HOME/hawkular-$HAWKULAR_VERSION $HOME/hawkular
 
 # Set the JBOSS_HOME env variable
 ENV JBOSS_HOME /opt/jboss/hawkular
