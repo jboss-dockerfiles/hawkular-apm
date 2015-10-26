@@ -2,7 +2,7 @@ FROM jboss/base-jdk:8
 
 MAINTAINER Thomas Heute <theute@redhat.com>
 
-ENV HAWKULAR_VERSION 1.0.0.Alpha4
+ENV HAWKULAR_VERSION 1.0.0.Alpha6
 
 # Download Hawkular from download.jboss.org
 RUN cd $HOME && curl -# http://download.jboss.org/hawkular/hawkular/$HAWKULAR_VERSION/hawkular-dist-$HAWKULAR_VERSION.tar.gz | tar zx && mv $HOME/hawkular-$HAWKULAR_VERSION $HOME/hawkular
