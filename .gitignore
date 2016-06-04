@@ -1,0 +1,12 @@
+# IDE files
+.project
+.classpath
+.settings
+.idea
+*.ipr
+*.iml
+*.iws
+nb-configuration.xml
+
+# OSX
+.DS_Store
