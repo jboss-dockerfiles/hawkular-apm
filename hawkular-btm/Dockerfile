@@ -17,6 +17,17 @@ ENV LAUNCH_JBOSS_IN_BACKGROUND true
 # Expose the ports we're interested in
 EXPOSE 8080
 
+# Increase memory footprint
+ENV  JAVA_OPTS="-Xms4g -Xmx4g -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=512m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=$JBOSS_MODULES_SYSTEM_PKGS -Djava.awt.headless=true"
+
+# Copy any custom properites
+USER root
+COPY custom.properties /opt/jboss/custom.properties
+RUN chown -R jboss:jboss /opt/jboss/custom.properties
+
+COPY btm.json /opt/jboss/hawkular-btm/standalone/data/btmconfig/btm.json
+RUN chown -R jboss:jboss /opt/jboss/hawkular-btm/standalone/data/btmconfig/btm.json
+
 # Set the default command to run on boot
 # This will boot Hawkular and bind to all interface
-CMD ["/opt/jboss/hawkular-btm/bin/standalone.sh","-b","0.0.0.0","-bmanagement","0.0.0.0"]
+CMD ["/opt/jboss/hawkular-btm/bin/standalone.sh","-b","0.0.0.0","-bmanagement","0.0.0.0","--properties=custom.properties"]
