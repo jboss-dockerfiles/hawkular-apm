@@ -2,7 +2,7 @@ FROM jboss/base-jdk:8
 
 MAINTAINER Gary Brown <gbrown@redhat.com>
 
-ENV HAWKULAR_BTM_VERSION 0.7.4.Final
+ENV HAWKULAR_BTM_VERSION 0.8.0.Final
 ENV JBOSS_HOME /opt/jboss/hawkular-btm
 
 # Download Hawkular-BTM from repository.jboss.org
