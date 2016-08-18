@@ -11,6 +11,8 @@ RUN cd $HOME \
     && unzip -d $JBOSS_HOME hawkular-apm-dist-$HAWKULAR_APM_VERSION.zip \
     && rm hawkular-apm-dist-$HAWKULAR_APM_VERSION.zip
 
+ADD standalone-wrapper.sh /opt/jboss/hawkular-apm-server/bin/standalone-wrapper.sh
+
 # Ensure signals are forwarded to the JVM process correctly for graceful shutdown
 ENV LAUNCH_JBOSS_IN_BACKGROUND true
 
@@ -19,4 +21,4 @@ EXPOSE 8080
 
 # Set the default command to run on boot
 # This will boot Hawkular and bind to all interface
-CMD ["/opt/jboss/hawkular-apm-server/bin/standalone.sh","-b","0.0.0.0","-bmanagement","0.0.0.0"]
+CMD ["/opt/jboss/hawkular-apm-server/bin/standalone-wrapper.sh","-b","0.0.0.0","-bmanagement","0.0.0.0"]
