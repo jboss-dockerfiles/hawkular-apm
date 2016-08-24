@@ -2,7 +2,7 @@ FROM jboss/base-jdk:8
 
 MAINTAINER Gary Brown <gbrown@redhat.com>
 
-ENV HAWKULAR_APM_VERSION 0.9.0.Final
+ENV HAWKULAR_APM_VERSION 0.10.0.Final
 ENV JBOSS_HOME /opt/jboss/hawkular-apm-server
 
 # Download Hawkular-APM from github
