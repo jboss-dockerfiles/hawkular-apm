@@ -13,8 +13,8 @@ elif [ $RT -ne 1 ]; then
   echo "An error has been found when attempting to check if an admin user exists. Aborting."
   exit 1
 else
-  username="admin$(head /dev/random -c 512 | tr -dc A-Z-a-z-0-9 | head -c 7)"
-  password=$(head /dev/random -c 512 | tr -dc A-Z-a-z-0-9 | head -c 17)
+  username="admin$(head /dev/urandom -c 512 | tr -dc A-Z-a-z-0-9 | head -c 7)"
+  password=$(head /dev/urandom -c 512 | tr -dc A-Z-a-z-0-9 | head -c 17)
   ${DIRNAME}/add-user.sh -a -u "${username}" -p "${password}" -g read-write,read-only -s
   RT=$?
   if [ ${RT} -eq 0 ] ; then
