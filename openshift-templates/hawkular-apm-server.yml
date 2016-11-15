@@ -1,0 +1,102 @@
+apiVersion: v1
+kind: Template
+labels:
+  template: hawkular-apm-template
+message: 'A Hawkular APM service has been created in your project. You can login as ''${HAWKULAR_APM_ADMIN_USERNAME}'' with the password ''${HAWKULAR_APM_ADMIN_PASSWORD}'' '
+metadata:
+  annotations:
+    description: Hawkular APM Server service.
+    iconClass: icon-wildfly
+    openshift.io/display-name: Hawkular APM Server
+    tags: instant-app,hawkular,apm,opentrace
+  name: hawkular-apm-server
+objects:
+- apiVersion: v1
+  kind: Route
+  metadata:
+    creationTimestamp: null
+    name: ${HAWKULAR_APM_SERVICE_NAME}
+  spec:
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: ${HAWKULAR_APM_SERVICE_NAME}
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    creationTimestamp: null
+    name: ${HAWKULAR_APM_SERVICE_NAME}
+  spec:
+    replicas: 1
+    selector:
+      name: ${HAWKULAR_APM_SERVICE_NAME}
+    strategy:
+      type: Recreate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          name: ${HAWKULAR_APM_SERVICE_NAME}
+      spec:
+        containers:
+        - capabilities: {}
+          env:
+          - name: HAWKULAR_APM_ADMIN_USERNAME
+            value: ${HAWKULAR_APM_ADMIN_USERNAME}
+          - name: HAWKULAR_APM_ADMIN_PASSWORD
+            value: ${HAWKULAR_APM_ADMIN_PASSWORD}
+          image: jboss/hawkular-apm-server
+          imagePullPolicy: IfNotPresent
+          name: ${HAWKULAR_APM_SERVICE_NAME}
+          resources:
+            limits:
+              memory: 2048Mi
+          securityContext:
+            capabilities: {}
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        serviceAccountName: ${HAWKULAR_APM_SERVICE_NAME}
+    triggers:
+    - type: ConfigChange
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    annotations:
+      serviceaccounts.openshift.io/oauth-redirectreference.hawkular-apm: '{"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"${HAWKULAR_APM_SERVICE_NAME}"}}'
+    name: ${HAWKULAR_APM_SERVICE_NAME}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    name: ${HAWKULAR_APM_SERVICE_NAME}
+  spec:
+    ports:
+    - name: web
+      nodePort: 0
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      name: ${HAWKULAR_APM_SERVICE_NAME}
+    sessionAffinity: None
+    type: ClusterIP
+parameters:
+- description: The name of the Hawkular APM Service.
+  displayName: Hawkular APM Service Name
+  name: HAWKULAR_APM_SERVICE_NAME
+  required: true
+  value: hawkular-apm
+- description: The username for the user with administrative privileges.
+  displayName: Administrator's username
+  name: HAWKULAR_APM_ADMIN_USERNAME
+  required: true
+  value: admin
+- description: The password for the user with administrative privileges.
+  displayName: Administrator's password
+  from: '[a-zA-Z0-9]{23}'
+  generate: expression
+  name: HAWKULAR_APM_ADMIN_PASSWORD
