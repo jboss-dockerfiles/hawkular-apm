@@ -10,13 +10,13 @@ LABEL io.k8s.description="Hawkular APM Server is an application monitoring solut
 # Labels consumed by Red Hat build service
 LABEL com.redhat.component="openshift-hawkular-apm-docker" \
       name="openshift3/hawkular-apm-server-rhel7" \
-      version="0.11.0.Final" \
+      version="0.12.0.Final" \
       architecture="x86_64" \
       release="7"
 
 USER jboss
 
-ENV HAWKULAR_APM_VERSION 0.11.0.Final
+ENV HAWKULAR_APM_VERSION 0.12.0.Final
 ENV JBOSS_HOME /opt/jboss/hawkular-apm-server
 
 # Download Hawkular-APM from github
