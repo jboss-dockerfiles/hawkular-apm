@@ -1,0 +1,5 @@
+Coming soon. In between:
+
+	$ oc cluster up
+	$ oc login -u system:admin
+	$ oc create -n openshift -f ~/Projects/jboss-dockerfiles-hawkular/openshift-templates
