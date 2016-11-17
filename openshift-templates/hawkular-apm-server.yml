@@ -57,6 +57,18 @@ objects:
             capabilities: {}
             privileged: false
           terminationMessagePath: /dev/termination-log
+          readinessProbe:
+            timeoutSeconds: 5
+            initialDelaySeconds: 20
+            httpGet:
+              path: "/hawkular/apm/status"
+              port: 8080
+          livenessProbe:
+            timeoutSeconds: 5
+            initialDelaySeconds: 20
+            httpGet:
+              path: "/hawkular/apm/status"
+              port: 8080
         dnsPolicy: ClusterFirst
         restartPolicy: Always
         serviceAccountName: ${HAWKULAR_APM_SERVICE_NAME}
