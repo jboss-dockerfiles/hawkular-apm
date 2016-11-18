@@ -18,7 +18,7 @@ objects:
     name: ${HAWKULAR_APM_SERVICE_NAME}
   spec:
     tls:
-      insecureEdgeTerminationPolicy: Redirect
+      insecureEdgeTerminationPolicy: Allow
       termination: edge
     to:
       kind: Service
