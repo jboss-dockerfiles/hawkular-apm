@@ -8,7 +8,7 @@ metadata:
     description: Hawkular APM Server service.
     iconClass: icon-wildfly
     openshift.io/display-name: Hawkular APM Server
-    tags: instant-app,hawkular,apm,opentrace
+    tags: instant-app,hawkular,apm,opentracing
   name: hawkular-apm-server
 objects:
 - apiVersion: v1
