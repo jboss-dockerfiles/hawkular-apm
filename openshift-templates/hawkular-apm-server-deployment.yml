@@ -4,6 +4,14 @@ metadata:
   name: hawkular-apm
 items:
 - apiVersion: v1
+  kind: Secret
+  metadata:
+    name: hawkular-apm-admin-account
+  data:
+    hawkular-apm.username: YWRtaW4K
+    hawkular-apm.password: cGFzc3dvcmQK
+  type: Opaque
+- apiVersion: v1
   kind: Route
   metadata:
     creationTimestamp: null
@@ -35,15 +43,15 @@ items:
         containers:
         - capabilities: {}
           env:
-          - name: HAWKULAR_APM_ADMIN_USERNAME
-            value: admin
-          - name: HAWKULAR_APM_ADMIN_PASSWORD
-            value: password
           - name: HAWKULAR_APM_ELASTICSEARCH_HOSTS
             value: hawkular-apm-es:9300
           - name: HAWKULAR_APM_ELASTICSEARCH_CLUSTER
             value: hawkular-apm-es-cluster
           image: jboss/hawkular-apm-server
+          volumeMounts:
+              - name: client-secrets
+                mountPath: /client-secrets
+                readOnly: true
           imagePullPolicy: IfNotPresent
           name: hawkular-apm
           terminationMessagePath: /dev/termination-log
@@ -65,6 +73,10 @@ items:
               cpu: 2000m
         dnsPolicy: ClusterFirst
         restartPolicy: Always
+        volumes:
+          - name: client-secrets
+            secret:
+              secretName: hawkular-apm-admin-account
         serviceAccountName: hawkular-apm
     triggers:
     - type: ConfigChange

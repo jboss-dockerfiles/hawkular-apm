@@ -40,4 +40,5 @@ To clean up the services created by the templates:
 	oc delete route hawkular-apm ; \
 	oc delete deploymentconfig hawkular-apm hawkular-apm-es ; \
 	oc delete serviceaccount hawkular-apm hawkular-apm-es ; \
-	oc delete service hawkular-apm hawkular-apm-es
+	oc delete service hawkular-apm hawkular-apm-es ; \
+	oc delete secret hawkular-apm-admin-account
