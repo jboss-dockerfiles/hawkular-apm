@@ -1,4 +1,43 @@
-	$ docker-machine create -d virtualbox --virtualbox-memory 8192 --virtualbox-cpu-count 4 --engine-insecure-registry 172.30.0.0/16 openshift
-	$ oc cluster up --docker-machine=openshift
-	$ oc login -u system:admin
-	$ oc create -n openshift -f https://raw.githubusercontent.com/jboss-dockerfiles/hawkular-apm/master/openshift-templates/hawkular-apm-server.yml
+# Hawkular APM OpenShift model files
+
+The `YAML` files in this directory are meant to be used with OpenShift. These files can be imported via `oc create -f /path/to/file`,
+where `path/to/file` might be a local path or a remote file.
+
+While these model files can be imported into OpenShift Online, they might not work on regular accounts yet, as quotas and watchdogs might
+kill the pods before they get into a healthy state. For now, the best is to use a local OpenShift cluster, which can be set on a Fedora
+machine as follows:
+
+	sudo iptables -F
+	oc cluster up
+	oc login -u system:admin
+
+To import the "instant-app" template, use the `hawkular-apm-server.yml` file:
+
+	oc create -f https://raw.githubusercontent.com/jboss-dockerfiles/hawkular-apm/master/openshift-templates/hawkular-apm-server.yml
+
+To create a Hawkular APM deployment, use the `hawkular-apm-server-deployment.yml` file:
+
+	oc create -f https://raw.githubusercontent.com/jboss-dockerfiles/hawkular-apm/master/openshift-templates/hawkular-apm-server-deployment.yml
+
+Refer to the OpenShift documentation on further options for `oc create`.
+
+The first allows an user to create an instance of Hawkular APM by customizing the service name, user name and password, while the second create a running
+instance right away, using 'hawkular-apm', 'admin' and 'password' as defaults, respectively.
+
+Note that in both cases, a service group is created composed of two services:
+
+- hawkular-apm
+- elasticsearch
+
+The `elasticsearch` image used there is not official by any means. In fact, it's not recommended for production usage at all, as it won't persist data
+between restarts. Data is replicated across the cluster, so, data will be available as long as the cluster is alive.
+
+## Cleaning it up
+
+To clean up the services created by the templates:
+
+	oc delete template hawkular-apm ; \
+	oc delete route hawkular-apm ; \
+	oc delete deploymentconfig hawkular-apm hawkular-apm-es ; \
+	oc delete serviceaccount hawkular-apm hawkular-apm-es ; \
+	oc delete service hawkular-apm hawkular-apm-es
