@@ -43,6 +43,8 @@ objects:
         containers:
         - capabilities: {}
           env:
+          - name: HAWKULAR_APM_ADMIN_USERNAME
+            value: ${HAWKULAR_APM_ADMIN_USERNAME}
           - name: HAWKULAR_APM_ADMIN_PASSWORD
             value: ${HAWKULAR_APM_ADMIN_PASSWORD}
           - name: HAWKULAR_APM_ELASTICSEARCH_HOSTS
@@ -50,10 +52,6 @@ objects:
           - name: HAWKULAR_APM_ELASTICSEARCH_CLUSTER
             value: ${HAWKULAR_APM_SERVICE_NAME}-es-cluster
           image: jboss/hawkular-apm-server
-          volumeMounts:
-              - name: client-secrets
-                mountPath: /client-secrets
-                readOnly: true
           imagePullPolicy: IfNotPresent
           name: ${HAWKULAR_APM_SERVICE_NAME}
           securityContext:
@@ -78,10 +76,6 @@ objects:
               cpu: 2000m
         dnsPolicy: ClusterFirst
         restartPolicy: Always
-        volumes:
-          - name: client-secrets
-            secret:
-              secretName: hawkular-apm-admin-account
         serviceAccountName: ${HAWKULAR_APM_SERVICE_NAME}
     triggers:
     - type: ConfigChange
@@ -182,13 +176,6 @@ objects:
       name: ${HAWKULAR_APM_SERVICE_NAME}-es
     sessionAffinity: None
     type: ClusterIP
-- apiVersion: v1
-  kind: Secret
-  metadata:
-    name: hawkular-apm-admin-account
-  data:
-    hawkular-apm.username: ${HAWKULAR_APM_ADMIN_USERNAME}
-  type: Opaque
 parameters:
 - description: The name of the Hawkular APM Service.
   displayName: Hawkular APM Service Name
