@@ -13,7 +13,7 @@ ENV ELASTICSEARCH_VERSION 1.7.6
 ENV CLUSTER_NAME elasticsearch
 
 RUN cd $HOME \
-    && curl -L https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.6.tar.gz | \
+    && curl -L https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz | \
 	tar xz && \
 	mv elasticsearch-${ELASTICSEARCH_VERSION} elasticsearch
 

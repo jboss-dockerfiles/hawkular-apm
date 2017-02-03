@@ -16,7 +16,7 @@ LABEL com.redhat.component="openshift-hawkular-apm-docker" \
 
 USER jboss
 
-ENV HAWKULAR_APM_VERSION 0.13.0.Final
+ENV HAWKULAR_APM_VERSION 0.14.0.Final
 ENV JBOSS_HOME /opt/jboss/hawkular-apm-server
 
 # Download Hawkular-APM from github
