@@ -10,7 +10,7 @@ LABEL io.k8s.description="Hawkular APM Server is an application monitoring solut
 # Labels consumed by Red Hat build service
 LABEL com.redhat.component="openshift-hawkular-apm-docker" \
       name="openshift3/hawkular-apm-server-rhel7" \
-      version="0.13.0.Final" \
+      version="0.14.0.Final" \
       architecture="x86_64" \
       release="7"
 
