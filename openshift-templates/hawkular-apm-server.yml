@@ -37,6 +37,8 @@ objects:
     template:
       metadata:
         creationTimestamp: null
+        annotations:
+          "service.alpha.openshift.io/dependencies": "[{\"name\": \"hawkular-apm-es\", \"kind\": \"Service\"}]"
         labels:
           name: ${HAWKULAR_APM_SERVICE_NAME}
       spec:
